@@ -17,6 +17,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   label = @Translation("Rules component"),
  *   handlers = {
  *     "list_builder" = "Drupal\rules\Entity\Controller\RulesComponentListBuilder",
+ *     "form" = {
+ *        "default" = "Drupal\rules\Entity\RulesComponentForm",
+ *      }
  *   },
  *   admin_permission = "administer rules",
  *   config_prefix = "component",

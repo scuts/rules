@@ -8,7 +8,7 @@
 namespace Drupal\rules\Entity\Controller;
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityListBuilder;
+use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Url;
 
 /**
@@ -16,7 +16,7 @@ use Drupal\Core\Url;
  *
  * @ingroup rules
  */
-class RulesComponentListBuilder extends EntityListBuilder {
+class RulesComponentListBuilder extends ConfigEntityListBuilder {
 
   /**
    * {@inheritdoc}
@@ -59,7 +59,7 @@ class RulesComponentListBuilder extends EntityListBuilder {
     // @todo: maybe link somewhere
     /* $entity->link($this->getLabel($entity)) */
     $row['description'] = $entity->getDescription();
-    $row['tag'] = $entity->getTag();
+    // $row['tag'] = $entity->getTag();
     return $row + parent::buildRow($entity);
   }
 
