@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a form for action add forms.
  */
-class RulesComponentForm extends EntityForm {
+class RulesComponentFormBase extends EntityForm {
 
   protected $storage = NULL;
 
@@ -49,7 +49,7 @@ class RulesComponentForm extends EntityForm {
     $form['label'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
-      '#default_value' => '',
+      '#default_value' => $this->entity->label(),
       '#required' => TRUE,
     );
 
@@ -81,7 +81,6 @@ class RulesComponentForm extends EntityForm {
       '#description' => t('Enter a description for this rule component.'),
       '#title' => t('Description'),
     );
-
 
     return parent::form($form, $form_state);
   }

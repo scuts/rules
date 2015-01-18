@@ -18,7 +18,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   handlers = {
  *     "list_builder" = "Drupal\rules\Entity\Controller\RulesComponentListBuilder",
  *     "form" = {
- *        "default" = "Drupal\rules\Entity\RulesComponentForm",
+ *        "add" = "Drupal\rules\Entity\RulesComponentFormAdd",
+ *        "edit" = "Drupal\rules\Entity\RulesComponentFormEdit",
  *      }
  *   },
  *   admin_permission = "administer rules",

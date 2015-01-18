@@ -13,7 +13,15 @@ entity.rules.collection:
 entity.rules.add_form:
   path: '/admin/config/system/rules/add'
   defaults:
-    _entity_form: 'rules_component.default'
+    _entity_form: 'rules_component.add'
     _title: 'Add rules component'
+  requirements:
+    _permission: 'administer rules'
+
+entity.rules.edit_form:
+  path: '/admin/config/system/rules/edit/{entity_id}'
+  defaults:
+    _entity_form: 'rules_component.edit'
+    _title: 'Edit rules component'
   requirements:
     _permission: 'administer rules'
