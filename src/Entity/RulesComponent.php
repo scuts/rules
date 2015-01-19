@@ -18,8 +18,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   handlers = {
  *     "list_builder" = "Drupal\rules\Entity\Controller\RulesComponentListBuilder",
  *     "form" = {
- *        "add" = "Drupal\rules\Entity\RulesComponentFormAdd",
- *        "edit" = "Drupal\rules\Entity\RulesComponentFormEdit",
+ *        "add" = "Drupal\rules\Entity\RulesComponentAddForm",
+ *        "edit" = "Drupal\rules\Entity\RulesComponentEditForm",
  *      }
  *   },
  *   admin_permission = "administer rules",
@@ -159,7 +159,7 @@ class RulesComponent extends ConfigEntityBase {
    * Returns the tag.
    */
   public function getTag() {
-    return $this->tag();
+    return $this->tag;
   }
 
   /**

@@ -19,7 +19,7 @@ entity.rules.add_form:
     _permission: 'administer rules'
 
 entity.rules.edit_form:
-  path: '/admin/config/system/rules/edit/{entity_id}'
+  path: '/admin/config/system/rules/edit/{rules_component}'
   defaults:
     _entity_form: 'rules_component.edit'
     _title: 'Edit rules component'

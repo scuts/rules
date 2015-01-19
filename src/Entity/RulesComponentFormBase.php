@@ -2,37 +2,38 @@
 
 /**
  * @file
- * Contains \Drupal\action\ActionAddForm.
+ * Contains \Drupal\rules\Entity\RulesComponentFormBase.
  */
 
 namespace Drupal\rules\Entity;
 
-use Drupal\rules\Plugin\RulesComponentManager;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a form for action add forms.
+ * Provides the base form for rules add and edit forms.
  */
-class RulesComponentFormBase extends EntityForm {
+abstract class RulesComponentFormBase extends EntityForm {
+
+  /**
+   * The rules component entity.
+   *
+   * @var \Drupal\rules\Entity\RulesComponent
+   */
+  protected $entity;
 
   protected $storage = NULL;
-
-  protected $componentManager = NULL;
 
   /**
    * Constructs a new ActionAddForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $storage
    *   The rules_component storage.
-   * @param \Drupal\rules\Plugin\RulesComponentManager $component_manager
-   *   The rules component manager.
    */
-  public function __construct(EntityStorageInterface $storage, RulesComponentManager $component_manager) {
+  public function __construct(EntityStorageInterface $storage) {
     $this->storage = $storage;
-    $this->componentManager = $component_manager;
   }
 
   /**
@@ -40,11 +41,13 @@ class RulesComponentFormBase extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('rules_component'),
-      $container->get('plugin.manager.rules_component')
+      $container->get('entity.manager')->getStorage('rules_component')
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function form($form, FormStateInterface $form_state) {
     $form['label'] = array(
       '#type' => 'textfield',
@@ -57,7 +60,7 @@ class RulesComponentFormBase extends EntityForm {
     $form['tag'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Tag'),
-      '#default_value' => '',
+      '#default_value' => $this->entity->getTag(),
       '#description' => t('Enter a tag here'),
       '#required' => TRUE,
     );
@@ -77,7 +80,7 @@ class RulesComponentFormBase extends EntityForm {
 
     $form['description'] = array(
       '#type' => 'textarea',
-      '#default_value' => '',
+      '#default_value' => $this->entity->getDescription(),
       '#description' => t('Enter a description for this rule component.'),
       '#title' => t('Description'),
     );
