@@ -1,0 +1,7 @@
+# Define the menu links for this module
+
+rules_component_add_action:
+  route_name: entity.rules_component.add_form
+  title: 'Add new component'
+  appears_on:
+    - entity.rules_component.collection
