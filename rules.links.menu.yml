@@ -1,7 +1,8 @@
 # Define the menu links for this module
 
-entity.rules.collection:
+entity.rules_component.collection:
   title: 'Rules Component Listing'
-  route_name: entity.rules.collection
+  route_name: entity.rules_component.collection
+  parent: system.admin_config_workflow
   description: 'List Rules Components'
   weight: 10

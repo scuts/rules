@@ -59,7 +59,7 @@ class RulesComponentListBuilder extends ConfigEntityListBuilder {
     // @todo: maybe link somewhere
     /* $entity->link($this->getLabel($entity)) */
     $row['description'] = $entity->getDescription();
-    // $row['tag'] = $entity->getTag();
+    $row['tag'] = $entity->getTag();
     return $row + parent::buildRow($entity);
   }
 
