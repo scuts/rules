@@ -18,8 +18,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   handlers = {
  *     "list_builder" = "Drupal\rules\Entity\Controller\RulesComponentListBuilder",
  *     "form" = {
- *        "add" = "Drupal\rules\Entity\RulesComponentAddForm",
- *        "edit" = "Drupal\rules\Entity\RulesComponentEditForm",
+ *        "add" = "\Drupal\rules\Entity\RulesComponentAddForm",
+ *        "edit" = "\Drupal\rules\Entity\RulesComponentEditForm",
+ *        "delete" = "\Drupal\rules\Entity\RulesComponentDeleteForm"
  *      }
  *   },
  *   admin_permission = "administer rules",
@@ -30,7 +31,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "status" = "status"
  *   },
  *   links = {
- *     "edit-form" = "/admin/config/workflow/rules/edit/{rules_component}",
+ *     "edit-form" = "/admin/config/workflow/rules/{rules_component}/edit",
+ *     "delete-form" = "/admin/config/workflow/rules/{rules_component}/delete",
  *   }
  * )
  */

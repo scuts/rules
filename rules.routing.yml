@@ -25,3 +25,13 @@ entity.rules_component.edit_form:
     _title: 'Edit rules component'
   requirements:
     _permission: 'administer rules'
+
+entity.rules_component.delete_form:
+  path: '/admin/config/workflow/rules/{rules_component}/delete'
+  defaults:
+    _entity_form: 'rules_component.delete'
+    _title: 'Delete rules component'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'delete rules'
