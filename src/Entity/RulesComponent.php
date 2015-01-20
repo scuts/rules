@@ -28,6 +28,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "id" = "id",
  *     "label" = "label",
  *     "status" = "status"
+ *   },
+ *   links = {
+ *     "edit-form" = "/admin/config/workflow/rules/edit/{rules_component}",
  *   }
  * )
  */
