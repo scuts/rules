@@ -110,6 +110,41 @@ class DataConvertTest extends RulesIntegrationTestBase {
   }
 
   /**
+   * Test the behavior if nonsense context values is set.
+   *
+   * @covers ::execute()
+   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   */
+  public function testInvalidValueException() {
+    $value = $this->getRandomGenerator()->name();
+    $this->executeAction($value, 'integer');
+  }
+
+  /**
+   * Test the behavior if nonsense rounding_behaviors is set.
+   *
+   * @covers ::execute()
+   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   */
+  public function testInvalidRoundingBehaviorException() {
+    $value = 5.5;
+    $rounding_behavior = $this->getRandomGenerator()->name();
+    $this->executeAction($value, 'integer', $rounding_behavior);
+  }
+
+  /**
+   * Test the behavior if nonsense target_type is set.
+   *
+   * @covers ::execute()
+   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   */
+  public function testInvalidTargetTypeException() {
+    $value = 5.5;
+    $target_type = $this->getRandomGenerator()->name();
+    $this->executeAction($value, $target_type);
+  }
+
+  /**
    * Shortcut method to execute the convert action and to avoid duplicate code.
    *
    * @param mixed $value
