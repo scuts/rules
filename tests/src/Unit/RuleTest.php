@@ -18,7 +18,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * The rules expression plugin manager.
    *
-   * @var \Drupal\rules\Plugin\RulesExpressionPluginManager
+   * @var \Drupal\rules\Engine\RulesExpressionPluginManager
    */
   protected $expressionManager;
 
@@ -49,7 +49,7 @@ class RuleTest extends RulesUnitTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->expressionManager = $this->getMockBuilder('Drupal\rules\Plugin\RulesExpressionPluginManager')
+    $this->expressionManager = $this->getMockBuilder('Drupal\rules\Engine\RulesExpressionPluginManager')
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -71,7 +71,7 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that a rule is constructed with condition and action containers.
    *
-   * @covers ::__construct()
+   * @covers ::__construct
    */
   public function testContainersOnConstruct() {
     $this->assertSame($this->conditions, $this->rule->getConditions());
@@ -81,8 +81,8 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests the condition container setter and getter.
    *
-   * @covers ::setConditions()
-   * @covers ::getConditions()
+   * @covers ::setConditions
+   * @covers ::getConditions
    */
   public function testSetConditionsGetConditions() {
     $or = $this->getMockOr();
@@ -97,8 +97,8 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests the condition container setter and getter.
    *
-   * @covers ::setActions()
-   * @covers ::getActions()
+   * @covers ::setActions
+   * @covers ::getActions
    */
   public function testSetActionsGetActions() {
     $action_set = $this->getMockActionSet();
@@ -109,80 +109,85 @@ class RuleTest extends RulesUnitTestBase {
   /**
    * Tests that an action fires if a condition passes.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testActionExecution() {
     // The method on the test action must be called once.
     $this->testAction->expects($this->once())
       ->method('executeWithState');
 
-    $this->rule->addCondition($this->trueCondition)
-      ->addAction($this->testAction)
+    $this->rule
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($this->testAction)
       ->execute();
   }
 
   /**
    * Tests that an action does not fire if a condition fails.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testConditionFails() {
     // The execute method on the action must never be called.
     $this->testAction->expects($this->never())
       ->method('execute');
 
-    $this->rule->addCondition($this->falseCondition)
-      ->addAction($this->testAction)
+    $this->rule
+      ->addExpressionObject($this->falseCondition)
+      ->addExpressionObject($this->testAction)
       ->execute();
   }
 
   /**
    * Tests that an action fires if a condition passes.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testTwoConditionsTrue() {
     // The method on the test action must be called once.
     $this->testAction->expects($this->once())
       ->method('executeWithState');
 
-    $this->rule->addCondition($this->trueCondition)
-      ->addCondition($this->trueCondition)
-      ->addAction($this->testAction)
+    $this->rule
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($this->testAction)
       ->execute();
   }
 
   /**
    * Tests that an action does not fire if a condition fails.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testTwoConditionsFalse() {
     // The execute method on the action must never be called.
     $this->testAction->expects($this->never())
       ->method('execute');
 
-    $this->rule->addCondition($this->trueCondition)
-      ->addCondition($this->falseCondition)
-      ->addAction($this->testAction)
+    $this->rule
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($this->falseCondition)
+      ->addExpressionObject($this->testAction)
       ->execute();
   }
 
   /**
    * Tests that nested rules are properly executed.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testNestedRules() {
     $this->testAction->expects($this->once())
       ->method('executeWithState');
 
     $nested = $this->getMockRule()
-      ->addCondition($this->trueCondition)
-      ->addAction($this->testAction);
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($this->testAction);
 
-    $this->rule->addCondition($this->trueCondition)
-      ->addAction($nested)
+    $this->rule
+      ->addExpressionObject($this->trueCondition)
+      ->addExpressionObject($nested)
       ->execute();
   }
 

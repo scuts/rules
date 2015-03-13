@@ -7,7 +7,6 @@
 
 namespace Drupal\rules\Tests;
 
-use Drupal\rules\RulesExpressionTrait;
 use Drupal\simpletest\KernelTestBase;
 
 /**
@@ -15,7 +14,12 @@ use Drupal\simpletest\KernelTestBase;
  */
 abstract class RulesDrupalTestBase extends KernelTestBase {
 
-  use RulesExpressionTrait;
+  /**
+   * The expression plugin manager.
+   *
+   * @var \Drupal\rules\Engine\RulesExpressionPluginManager
+   */
+  protected $expressionManager;
 
   /**
    * The condition plugin manager.
@@ -43,7 +47,7 @@ abstract class RulesDrupalTestBase extends KernelTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->rulesExpressionManager = $this->container->get('plugin.manager.rules_expression');
+    $this->expressionManager = $this->container->get('plugin.manager.rules_expression');
     $this->conditionManager = $this->container->get('plugin.manager.condition');
     $this->typedDataManager = $this->container->get('typed_data_manager');
   }
@@ -54,11 +58,11 @@ abstract class RulesDrupalTestBase extends KernelTestBase {
    * @param string $id
    *   The condition plugin id.
    *
-   * @return \Drupal\rules\Engine\RulesConditionInterface
+   * @return \Drupal\rules\Core\RulesConditionInterface
    *   The created condition plugin.
    */
   protected function createCondition($id) {
-    $condition = $this->rulesExpressionManager->createInstance('rules_condition', [
+    $condition = $this->expressionManager->createInstance('rules_condition', [
       'condition_id' => $id,
     ]);
     return $condition;

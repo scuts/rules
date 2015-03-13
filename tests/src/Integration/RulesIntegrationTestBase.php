@@ -12,8 +12,8 @@ use Drupal\Core\Cache\NullBackend;
 use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\TypedData\TypedDataManager;
-use Drupal\rules\Plugin\RulesDataProcessorManager;
-use Drupal\rules\Plugin\RulesExpressionPluginManager;
+use Drupal\rules\Engine\RulesDataProcessorManager;
+use Drupal\rules\Engine\RulesExpressionPluginManager;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -47,12 +47,12 @@ abstract class RulesIntegrationTestBase extends UnitTestCase {
   protected $conditionManager;
 
   /**
-   * @var \Drupal\rules\Plugin\RulesExpressionPluginManager
+   * @var \Drupal\rules\Engine\RulesExpressionPluginManager
    */
   protected $rulesExpressionManager;
 
   /**
-   * @var \Drupal\rules\Plugin\RulesDataProcessorManager
+   * @var \Drupal\rules\Engine\RulesDataProcessorManager
    */
   protected $rulesDataProcessorManager;
 
@@ -84,6 +84,13 @@ abstract class RulesIntegrationTestBase extends UnitTestCase {
    * @var \Drupal\Core\DependencyInjection\Container
    */
   protected $container;
+
+  /**
+   * The class resolver mock for the typed data manager.
+   *
+   * @var \Drupal\Core\DependencyInjection\ClassResolverInterface
+   */
+  protected $classResolver;
 
   /**
    * {@inheritdoc}
@@ -118,7 +125,12 @@ abstract class RulesIntegrationTestBase extends UnitTestCase {
     $this->actionManager = new ActionManager($this->namespaces, $this->cacheBackend, $this->moduleHandler);
     $this->conditionManager = new ConditionManager($this->namespaces, $this->cacheBackend, $this->moduleHandler);
     $this->rulesExpressionManager = new RulesExpressionPluginManager($this->namespaces, $this->moduleHandler);
-    $this->typedDataManager = new TypedDataManager($this->namespaces, $this->cacheBackend, $this->moduleHandler);
+
+    $this->classResolver = $this->getMockBuilder('Drupal\Core\DependencyInjection\ClassResolverInterface')
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $this->typedDataManager = new TypedDataManager($this->namespaces, $this->cacheBackend, $this->moduleHandler, $this->classResolver);
     $this->rulesDataProcessorManager = new RulesDataProcessorManager($this->namespaces, $this->moduleHandler);
 
     $this->aliasManager = $this->getMockBuilder('Drupal\Core\Path\AliasManagerInterface')

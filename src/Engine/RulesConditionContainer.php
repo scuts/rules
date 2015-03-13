@@ -8,7 +8,9 @@
 namespace Drupal\rules\Engine;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\rules\Plugin\RulesExpressionPluginManager;
+use Drupal\rules\Core\RulesConditionBase;
+use Drupal\rules\Exception\InvalidExpressionException;
+use Drupal\rules\Engine\RulesExpressionPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,10 +18,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class RulesConditionContainer extends RulesConditionBase implements RulesConditionContainerInterface, ContainerFactoryPluginInterface {
 
+  use RulesExpressionTrait;
+
   /**
    * List of conditions that are evaluated.
    *
-   * @var \Drupal\rules\Engine\RulesConditionInterface[]
+   * @var \Drupal\rules\Core\RulesConditionInterface[]
    */
   protected $conditions = [];
 
@@ -32,16 +36,17 @@ abstract class RulesConditionContainer extends RulesConditionBase implements Rul
    *   The plugin_id for the plugin instance.
    * @param array $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\rules\Plugin\RulesExpressionPluginManager $expression_manager
+   * @param \Drupal\rules\Engine\RulesExpressionPluginManager $expression_manager
    *   The rules expression plugin manager.
    */
   public function __construct(array $configuration, $plugin_id, array $plugin_definition, RulesExpressionPluginManager $expression_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->expressionManager = $expression_manager;
 
     $configuration += ['conditions' => []];
     foreach ($configuration['conditions'] as $condition_config) {
-      $condition = $expression_manager->createInstance($condition_config['id'], $condition_config);
-      $this->addCondition($condition);
+      $condition = $this->expressionManager->createInstance($condition_config['id'], $condition_config);
+      $this->addExpressionObject($condition);
     }
   }
 
@@ -60,9 +65,32 @@ abstract class RulesConditionContainer extends RulesConditionBase implements Rul
   /**
    * {@inheritdoc}
    */
-  public function addCondition(RulesExpressionConditionInterface $condition) {
-    $this->conditions[] = $condition;
+  public function addExpressionObject(RulesExpressionInterface $expression) {
+    if (!$expression instanceof RulesExpressionConditionInterface) {
+      throw new InvalidExpressionException();
+    }
+    $this->conditions[] = $expression;
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addExpression($plugin_id, $configuration = NULL) {
+    return $this->addExpressionObject(
+      $this->expressionManager->createInstance($plugin_id, $configuration ?: [])
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addCondition($condition_id, $configuration = NULL) {
+    return $this->addExpressionObject(
+      $this->expressionManager
+        ->createCondition($condition_id)
+        ->setConfiguration($configuration ?: [])
+    );
   }
 
   /**
