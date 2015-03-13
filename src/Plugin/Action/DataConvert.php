@@ -7,7 +7,7 @@
 
 namespace Drupal\rules\Plugin\Action;
 
-use Drupal\rules\Engine\RulesActionBase;
+use Drupal\rules\Core\RulesActionBase;
 use Drupal\Component\Utility\String;
 use Drupal\rules\Plugin\Exception\RulesPluginException;
 

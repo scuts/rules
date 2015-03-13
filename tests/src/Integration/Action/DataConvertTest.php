@@ -32,7 +32,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the conversion and rounding to integer.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testConvertToInteger() {
     $value = 1.5;
@@ -60,7 +60,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the conversion and rounding to decimal.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testConvertToDecimal() {
     $value = '1.5';
@@ -85,7 +85,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the conversion and rounding to text.
    *
-   * @covers ::execute()
+   * @covers ::execute
    */
   public function testConvertToText() {
 
@@ -112,7 +112,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the behavior if nonsense context values is set.
    *
-   * @covers ::execute()
+   * @covers ::execute
    * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
    */
   public function testInvalidValueException() {
@@ -123,7 +123,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the behavior if nonsense rounding_behaviors is set.
    *
-   * @covers ::execute()
+   * @covers ::execute
    * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
    */
   public function testInvalidRoundingBehaviorException() {
@@ -135,7 +135,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
   /**
    * Test the behavior if nonsense target_type is set.
    *
-   * @covers ::execute()
+   * @covers ::execute
    * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
    */
   public function testInvalidTargetTypeException() {
