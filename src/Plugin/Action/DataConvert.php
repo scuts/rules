@@ -9,7 +9,6 @@ namespace Drupal\rules\Plugin\Action;
 
 use Drupal\rules\Core\RulesActionBase;
 use Drupal\Component\Utility\String;
-use Drupal\rules\Plugin\Exception\RulesPluginException;
 
 /**
  * @Action(
@@ -34,6 +33,7 @@ use Drupal\rules\Plugin\Exception\RulesPluginException;
  *      )
  *   }
  * )
+ * @todo Handle invalid arguments with a more specific exceptions.
  */
 class DataConvert extends RulesActionBase {
 
@@ -44,7 +44,7 @@ class DataConvert extends RulesActionBase {
     $value = $this->getContextValue('value');
 
     if (!is_numeric($value)) {
-      throw new RulesPluginException($this->t('The given context value is not numeric.'));
+      throw new \InvalidArgumentException($this->t('The given context value is not numeric.'));
     }
 
     $target_type = $this->getContextValue('target_type');
@@ -63,7 +63,7 @@ class DataConvert extends RulesActionBase {
           $value = round($value);
           break;
         default:
-          throw new RulesPluginException(String::format('Unknown rounding behavior: @rounding_behavior', [
+          throw new \InvalidArgumentException(String::format('Unknown rounding behavior: @rounding_behavior', [
             '@rounding_behavior' => $rounding_behavior,
           ]));
       }
@@ -80,7 +80,7 @@ class DataConvert extends RulesActionBase {
         $result = strval($value);
         break;
       default:
-        throw new RulesPluginException(String::format('Unknown target type: @type', [
+        throw new \InvalidArgumentException(String::format('Unknown target type: @type', [
           '@type' => $target_type,
         ]));
     }

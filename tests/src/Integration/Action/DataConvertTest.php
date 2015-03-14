@@ -113,7 +113,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
    * Test the behavior if nonsense context values is set.
    *
    * @covers ::execute
-   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   * @expectedException \InvalidArgumentException
    */
   public function testInvalidValueException() {
     $value = $this->getRandomGenerator()->name();
@@ -124,7 +124,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
    * Test the behavior if nonsense rounding_behaviors is set.
    *
    * @covers ::execute
-   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   * @expectedException \InvalidArgumentException
    */
   public function testInvalidRoundingBehaviorException() {
     $value = 5.5;
@@ -136,7 +136,7 @@ class DataConvertTest extends RulesIntegrationTestBase {
    * Test the behavior if nonsense target_type is set.
    *
    * @covers ::execute
-   * @expectedException \Drupal\rules\Plugin\Exception\RulesPluginException
+   * @expectedException \InvalidArgumentException
    */
   public function testInvalidTargetTypeException() {
     $value = 5.5;
