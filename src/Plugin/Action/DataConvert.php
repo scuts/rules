@@ -19,7 +19,7 @@ use Drupal\Component\Utility\String;
  *     "value" = @ContextDefinition("any",
  *       label = @Translation("Value")
  *     ),
- *     "target_type" = @ContextDefinition("any",
+ *     "target_type" = @ContextDefinition("string",
  *       label = @Translation("Target type")
  *     ),
  *     "rounding_behavior" = @ContextDefinition("string",
